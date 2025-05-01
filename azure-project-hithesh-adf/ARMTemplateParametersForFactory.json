@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "azure-project-hithesh-adf"
+		},
+		"ls_AzureBlobstorage_connectionString": {
+			"value": ""
+		},
+		"ls_Azure_database_password": {
+			"value": ""
+		},
+		"ls_Azure_databricks_accessToken": {
+			"value": ""
+		},
+		"ls_Onprem_Sqlserver_password": {
+			"value": ""
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://Azure-Project-db-KV.vault.azure.net/"
+		},
+		"ls_Azure_database_properties_typeProperties_server": {
+			"value": "azure-project-azserver.database.windows.net"
+		},
+		"ls_Azure_database_properties_typeProperties_database": {
+			"value": "azure-project-azdatabase"
+		},
+		"ls_Azure_database_properties_typeProperties_userName": {
+			"value": "sqladmin"
+		},
+		"ls_Azure_databricks_properties_typeProperties_existingClusterId": {
+			"value": "0321-124048-gz4eghf1"
+		},
+		"ls_Onprem_Sqlserver_properties_typeProperties_server": {
+			"value": "HITHESHSYAM"
+		},
+		"ls_Onprem_Sqlserver_properties_typeProperties_database": {
+			"value": "Sample"
+		},
+		"ls_Onprem_Sqlserver_properties_typeProperties_userName": {
+			"value": "sa"
+		}
+	}
+}
