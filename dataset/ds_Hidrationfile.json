@@ -1,0 +1,55 @@
+{
+	"name": "ds_Hidrationfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureBlobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Hidrationfile.xlsx",
+				"container": "hidrationfile"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "SNO",
+				"type": "String"
+			},
+			{
+				"name": "SrcSchema",
+				"type": "String"
+			},
+			{
+				"name": "SrcTableName",
+				"type": "String"
+			},
+			{
+				"name": "SrcColumns",
+				"type": "String"
+			},
+			{
+				"name": "SinkSChema",
+				"type": "String"
+			},
+			{
+				"name": "SinkTableName",
+				"type": "String"
+			},
+			{
+				"name": "ContainerName",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

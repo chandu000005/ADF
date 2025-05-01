@@ -1,0 +1,9 @@
+{
+	"name": "azure-project-hithesh-adf",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3242330c-ee11-4f8c-9263-cdd68489d51e",
+		"tenantId": "ebd0bad3-2605-4b39-8ae4-e35d7ad620ba"
+	}
+}
