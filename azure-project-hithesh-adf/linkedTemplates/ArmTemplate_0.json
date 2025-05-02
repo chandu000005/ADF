@@ -392,7 +392,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
+						"name": "Copy Azure SQL to ADLS",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
