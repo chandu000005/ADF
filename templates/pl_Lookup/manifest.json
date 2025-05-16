@@ -1,0 +1,11 @@
+{
+	"name": "pl_Lookup",
+	"author": "chandrasekhar.mulagani@outlook.com",
+	"annotations": [],
+	"services": [
+		"Azure Blob Storage"
+	],
+	"categories": [
+		"Azure Pipeline"
+	]
+}
