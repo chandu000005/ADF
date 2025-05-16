@@ -19,6 +19,10 @@
 					"value": "@dataset().Filename",
 					"type": "Expression"
 				},
+				"folderPath": {
+					"value": "@replace(substring(utcNow(),1 , 10),'-' ,'/' )\n\n",
+					"type": "Expression"
+				},
 				"container": "hydrationfilefolder"
 			},
 			"columnDelimiter": ",",
