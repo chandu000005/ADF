@@ -87,12 +87,53 @@
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
-								"enableStaging": false
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_azure_database",
-									"type": "DatasetReference"
+									"referenceName": "ds_azure_database_tablewithschema",
+									"type": "DatasetReference",
+									"parameters": {
+										"TableName": {
+											"value": "@item().sourceTablename",
+											"type": "Expression"
+										},
+										"SchemaName": {
+											"value": "@item().sourceScheme",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_datafolder",
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": {
+											"value": "@item().sourceTablename",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
