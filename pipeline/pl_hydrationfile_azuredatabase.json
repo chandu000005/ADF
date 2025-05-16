@@ -53,7 +53,13 @@
 				"outputs": [
 					{
 						"referenceName": "ds_HydrationFile_Location",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": {
+								"value": "@pipeline().parameters.filename",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
