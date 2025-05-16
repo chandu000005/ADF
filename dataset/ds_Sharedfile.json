@@ -1,0 +1,42 @@
+{
+	"name": "ds_Sharedfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureBlobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "hydrationfile.xlsx",
+				"container": "shared"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Sno",
+				"type": "String"
+			},
+			{
+				"name": "SourceScheme",
+				"type": "String"
+			},
+			{
+				"name": "sourcetablename",
+				"type": "String"
+			},
+			{
+				"name": "Loadtype",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			}
+		]
+	}
+}

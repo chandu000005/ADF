@@ -1,0 +1,35 @@
+{
+	"name": "ds_HydrationFile_Location",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureBlobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().Filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@replace(substring(utcNow(),0 , 10),'-' ,'/' )\n\n",
+					"type": "Expression"
+				},
+				"container": "hydrationfilefolder"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
