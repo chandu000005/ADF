@@ -52,7 +52,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Full load process",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -70,7 +70,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "onprem to data layer fullload",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -110,7 +110,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_azure_database_tablewithschema",
+									"referenceName": "ds_onprem_database_tablewithschema",
 									"type": "DatasetReference",
 									"parameters": {
 										"TableName": {

@@ -1,8 +1,8 @@
 {
-	"name": "ds_azure_database_tablewithschema",
+	"name": "ds_onprem_database_tablewithschema",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_Azure_database",
+			"referenceName": "ls_onprem_server",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
