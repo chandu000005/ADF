@@ -1,0 +1,17 @@
+{
+	"name": "ds_azure_database_tablelist",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Azure_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "edu",
+			"table": "tablelist"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
