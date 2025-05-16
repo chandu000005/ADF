@@ -45,7 +45,7 @@
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "HITHESHSYAM"
+			"defaultValue": "CHANDU"
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_database": {
 			"type": "string",
