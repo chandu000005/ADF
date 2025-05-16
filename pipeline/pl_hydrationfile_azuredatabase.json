@@ -46,7 +46,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_Hidrationfile",
+						"referenceName": "ds_Sharedfile",
 						"type": "DatasetReference"
 					}
 				],
