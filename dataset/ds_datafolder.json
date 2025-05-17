@@ -1,0 +1,48 @@
+{
+	"name": "ds_datafolder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureBlobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@replace(substring(utcNow(),0,10),'-','/')",
+					"type": "Expression"
+				},
+				"container": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DEPTNO",
+				"type": "String"
+			},
+			{
+				"name": "DNAME",
+				"type": "String"
+			},
+			{
+				"name": "LOC",
+				"type": "String"
+			}
+		]
+	}
+}

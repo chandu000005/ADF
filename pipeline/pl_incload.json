@@ -1,0 +1,247 @@
+{
+	"name": "pl_incload",
+	"properties": {
+		"activities": [
+			{
+				"name": "Fetching Tablelist",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from edu.tablelist",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_azure_database_tablelist",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Filter loadtyepe full",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Fetching Tablelist",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Fetching Tablelist').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item().loadtype,'inc')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "inc load process",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter loadtyepe full",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter loadtyepe full').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "onprem to data layer incload",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Fetch watermark value",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "Fetch maximum modified date",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select * from ',item().sourceScheme,'.',item().sourceTablename,' where ModifiedDate >''',activity('Fetch watermark value').output.value[0].watermarkDatetime,''' and ModifiedDate<=''',activity('Fetch maximum modified date').output.value[0].watermarkDatetime,'''')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_Onprem_sqlserver",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_datafolder",
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": {
+											"value": "@item().sourceTablename",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Fetch watermark value",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat('SELECT watermarkDateTime\n  FROM edu.watermarktable where tablename=''',item().sourceTablename,'''')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "ds_azure_database_tablelist",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Fetch maximum modified date",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select max(ModifiedDate) as watermarkDatetime from ',item().sourceScheme,'.',item().sourceTablename)",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "ds_Onprem_sqlserver",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Update watermark value",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "onprem to data layer incload",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "ls_Azure_database",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "@concat('  Update edu.watermarktable\n  set watermarkDateTime= ''',activity('Fetch maximum modified date').output.value[0].watermarkDateTime,'''where tablename=''',item().sourceTablename,'''')",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
