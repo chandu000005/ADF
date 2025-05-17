@@ -230,7 +230,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "@concat('  Update edu.watermarktable\n  set watermarkDateTime= getdate()\n  where tablename=''',item().sourceTablename)",
+											"value": "@concat('  Update edu.watermarktable\n  set watermarkDateTime= ''',activity('Fetch maximum modified date').output.value[0].watermarkDateTime,' where tablename=''',item().sourceTablename,'''')",
 											"type": "Expression"
 										}
 									}
