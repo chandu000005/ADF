@@ -72,9 +72,20 @@
 						{
 							"name": "onprem to data layer incload",
 							"type": "Copy",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Fetch watermark value",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "Fetch maximum modified date",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -85,7 +96,11 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "AzureSqlSource",
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select * from',item().sourceScheme,'.',item().sourceTablename,'where ModifiedDate >''',activity('Fetch watermark value').output.value[0].watermarkDatetime,''' and ModifiedDate<=''',activity('Fetch maximum modified date').output.value[0].watermarkDatetime)",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -112,18 +127,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_onprem_database_tablewithschema",
-									"type": "DatasetReference",
-									"parameters": {
-										"TableName": {
-											"value": "@item().sourceTablename",
-											"type": "Expression"
-										},
-										"SchemaName": {
-											"value": "@item().sourceScheme",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "ds_Onprem_sqlserver",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -164,7 +169,73 @@
 								"dataset": {
 									"referenceName": "ds_azure_database_tablelist",
 									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Fetch maximum modified date",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select max(ModifiedDate) as watermarkDatetime from ',item().sourceScheme,'.',item().sourceTablename)",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "ds_Onprem_sqlserver",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "Update watermark value",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "onprem to data layer incload",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "ls_Azure_database",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "@concat('  Update edu.watermarktable\n  set watermarkDateTime= getdate()\n  where tablename=''',item().sourceTablename)",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
 					]
