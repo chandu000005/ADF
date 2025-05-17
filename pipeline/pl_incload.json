@@ -98,7 +98,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@concat('select * from',item().sourceScheme,'.',item().sourceTablename,'where ModifiedDate >''',activity('Fetch watermark value').output.value[0].watermarkDatetime,''' and ModifiedDate<=''',activity('Fetch maximum modified date').output.value[0].watermarkDatetime)",
+										"value": "@concat('select * from',item().sourceScheme,'.',item().sourceTablename,' where ModifiedDate >''',activity('Fetch watermark value').output.value[0].watermarkDatetime,''' and ModifiedDate<=''',activity('Fetch maximum modified date').output.value[0].watermarkDatetime,'''')",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
