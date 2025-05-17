@@ -17,6 +17,9 @@
 		"ls_Onprem_Sqlserver_password": {
 			"value": ""
 		},
+		"ls_onprem_server_password": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://Azure-Project-db-KV.vault.azure.net/"
 		},
@@ -33,12 +36,21 @@
 			"value": "0321-124048-gz4eghf1"
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_server": {
-			"value": "CHANDU"
+			"value": "DESKTOP-4JKJ8V4"
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_database": {
 			"value": "Sample"
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"ls_onprem_server_properties_typeProperties_server": {
+			"value": "DESKTOP-4JKJ8V4"
+		},
+		"ls_onprem_server_properties_typeProperties_database": {
+			"value": "Sample"
+		},
+		"ls_onprem_server_properties_typeProperties_userName": {
 			"value": "sa"
 		},
 		"containerUri": {

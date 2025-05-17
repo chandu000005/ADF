@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_Onprem_Sqlserver'"
 		},
+		"ls_onprem_server_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_onprem_server'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Project-db-KV.vault.azure.net/"
@@ -45,13 +49,25 @@
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "CHANDU"
+			"defaultValue": "DESKTOP-4JKJ8V4"
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "Sample"
 		},
 		"ls_Onprem_Sqlserver_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"ls_onprem_server_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-4JKJ8V4"
+		},
+		"ls_onprem_server_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "Sample"
+		},
+		"ls_onprem_server_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
 		},
@@ -94,6 +110,9 @@
 					"ls_Onprem_Sqlserver_password": {
 						"value": "[parameters('ls_Onprem_Sqlserver_password')]"
 					},
+					"ls_onprem_server_password": {
+						"value": "[parameters('ls_onprem_server_password')]"
+					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					},
@@ -117,6 +136,15 @@
 					},
 					"ls_Onprem_Sqlserver_properties_typeProperties_userName": {
 						"value": "[parameters('ls_Onprem_Sqlserver_properties_typeProperties_userName')]"
+					},
+					"ls_onprem_server_properties_typeProperties_server": {
+						"value": "[parameters('ls_onprem_server_properties_typeProperties_server')]"
+					},
+					"ls_onprem_server_properties_typeProperties_database": {
+						"value": "[parameters('ls_onprem_server_properties_typeProperties_database')]"
+					},
+					"ls_onprem_server_properties_typeProperties_userName": {
+						"value": "[parameters('ls_onprem_server_properties_typeProperties_userName')]"
 					}
 				}
 			},
